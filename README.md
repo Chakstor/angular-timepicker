@@ -7,13 +7,13 @@ A simple dropdown style timepicker directive.
 1. [Angular 1.5.3+](http://angularjs.org)
 2. [Angular UI Bootstrap 1.3.1+](http://angular-ui.github.io/bootstrap/)
 3. [Angular DateParser 1.0.12+](https://github.com/dnasir/angular-dateParser)
- 
+
 ## Usage
 
 Include the timepicker directive file, and attach it to an input field.
 
-    <input type="text" dn-timepicker="h:mm a" min-time="00:00" max-time="23:59" step="15" ng-model="timepicker.model" />
-    
+    <input type="text" dn-timepicker="h:mm a" min-time="00:00" max-time="23:59" step="15" ng-model="timepicker.model" on-select="controllerFunction"/>
+
 ## Options
 
 #### dn-timepicker
