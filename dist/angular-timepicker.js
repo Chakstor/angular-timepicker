@@ -6,13 +6,6 @@
  * Licensed under: MIT (http://www.opensource.org/licenses/MIT)
  */
 
-/*!
- * angular-timepicker 1.0.10
- * https://github.com/Geta/angular-timepicker
- * Copyright 2016, Geta AS
- * Contributors: Dzulqarnain Nasir <dzul@geta.no>
- * Licensed under: MIT (http://www.opensource.org/licenses/MIT)
- */
 /*global angular*/
 (function(angular) {
     "use strict";
@@ -48,37 +41,23 @@
                 return index;
             }
         };
-    }).directive("dnTimepicker", [ "$compile", "$parse", "$uibPosition", "$document", "dateFilter", "$dateParser", "dnTimepickerHelpers", "$log", "$timeout", function($compile, $parse, $position, $document, dateFilter, $dateParser, dnTimepickerHelpers, $log, $timeout) {
+    }).directive("dnTimepicker", [ "$compile", "$parse", "$uibPosition", "$document", "dateFilter", "$dateParser", "dnTimepickerHelpers", "$log", function($compile, $parse, $position, $document, dateFilter, $dateParser, dnTimepickerHelpers, $log) {
         return {
             restrict: "A",
             require: "ngModel",
             scope: {
-                ngModel: "=",
-                onSelect: "="
+                ngModel: "="
             },
             link: function(scope, element, attrs, ctrl) {
-                //autoselect all text when user clicks on the textbox
-                var focused = false;
-                element.on("click", function() {
-                    var self = this;
-                    if (!focused) {
-                        focused = true;
-                        $timeout(function() {
-                            self.setSelectionRange(0, self.value.length);
-                        }, 0);
-                    }
-                }).on("blur", function() {
-                    focused = false;
-                });
                 // Local variables
                 var current = null, list = [], updateList = true;
                 // Model
                 scope.timepicker = {
                     element: null,
-                    timeFormat: "H:mm",
+                    timeFormat: "h:mm a",
                     minTime: $dateParser("0:00", "H:mm"),
-                    maxTime: $dateParser("23:30", "H:mm"),
-                    step: 30,
+                    maxTime: $dateParser("23:59", "H:mm"),
+                    step: 15,
                     isOpen: false,
                     activeIdx: -1,
                     optionList: function() {
@@ -96,7 +75,6 @@
                     current.setHours(date.getHours());
                     current.setMinutes(date.getMinutes());
                     current.setSeconds(date.getSeconds());
-                    scope.onSelect(date);
                     setCurrentValue(current);
                     return current;
                 }
@@ -142,7 +120,6 @@
                 };
                 // Parses manually entered time
                 ctrl.$parsers.unshift(function(viewValue) {
-                    scope.viewValue = viewValue;
                     var date = angular.isDate(viewValue) ? viewValue : $dateParser(viewValue, scope.timepicker.timeFormat);
                     if (isNaN(date)) {
                         ctrl.$setValidity("time", false);
@@ -165,7 +142,9 @@
                     return index === scope.timepicker.activeIdx;
                 };
                 // Sets the current active item
-                scope.setActive = function(index) {};
+                scope.setActive = function(index) {
+                    scope.timepicker.activeIdx = index;
+                };
                 // Sets the timepicker scrollbar so that selected item is visible
                 scope.scrollToSelected = function() {
                     if (scope.timepicker.element && scope.timepicker.activeIdx > -1) {
@@ -181,7 +160,7 @@
                     // Open list
                     scope.timepicker.isOpen = true;
                     // Set active item
-                    //scope.timepicker.activeIdx = dnTimepickerHelpers.getClosestIndex(scope.ngModel, scope.timepicker.optionList());
+                    scope.timepicker.activeIdx = dnTimepickerHelpers.getClosestIndex(scope.ngModel, scope.timepicker.optionList());
                     // Trigger digest
                     scope.$digest();
                     // Scroll to selected
@@ -201,20 +180,7 @@
                 element.bind("focus", function() {
                     scope.openPopup();
                 }).bind("blur", function() {
-                    if (scope.viewValue && !angular.isDate($dateParser(scope.viewValue, scope.timepicker.timeFormat))) {
-                        if (isNaN(scope.viewValue)) {
-                            scope.select(scope.timepicker.optionList()[0]);
-                        } else {
-                            if (angular.isDate(scope.viewValue)) {
-                                scope.select(scope.viewValue);
-                            } else {
-                                scope.select(convertToHHMM(scope.viewValue));
-                            }
-                        }
-                    }
-                    setTimeout(function() {
-                        scope.closePopup();
-                    }, 100);
+                    scope.closePopup();
                 }).bind("keypress keyup", function(e) {
                     if (e.which === 38 && scope.timepicker.activeIdx > 0) {
                         // UP
@@ -228,28 +194,9 @@
                         // ENTER
                         scope.select(scope.timepicker.optionList()[scope.timepicker.activeIdx]);
                         scope.closePopup();
-                    } else if (e.which === 13) {
-                        if (scope.viewValue && !angular.isDate($dateParser(scope.viewValue, scope.timepicker.timeFormat))) {
-                            if (!isNaN(scope.viewValue)) {
-                                if (angular.isDate(scope.viewValue)) {
-                                    scope.select(scope.viewValue);
-                                } else {
-                                    scope.select(convertToHHMM(scope.viewValue));
-                                }
-                                scope.closePopup();
-                            }
-                        }
                     }
                     scope.$digest();
                 });
-                function convertToHHMM(info) {
-                    var hrs = parseInt(Number(info));
-                    var min = Math.round((Number(info) - hrs) * 60);
-                    var myDate = new Date();
-                    myDate.setHours(hrs);
-                    myDate.setMinutes(min);
-                    return myDate;
-                }
                 // Close popup when clicked anywhere else in document
                 $document.bind("click", function(event) {
                     if (scope.timepicker.isOpen && event.target !== element[0]) {

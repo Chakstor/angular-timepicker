@@ -24,7 +24,7 @@
             border-style: solid;
             border-width: 1px 0;
         }
-
+        
         .bs-example:after {
             content: "Example";
             position: absolute;
@@ -36,7 +36,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
+        
         .highlight {
             padding: 9px 14px;
             margin-bottom: 14px;
@@ -44,13 +44,13 @@
             border: 1px solid #e1e1e8;
             border-radius: 4px;
         }
-
+        
         .bs-example+.highlight {
             margin: -15px -15px 15px;
             border-radius: 0;
             border-width: 0 0 1px;
         }
-
+        
         @media (min-width: 768px) {
             .bs-example {
                 margin-left: 0;
@@ -70,7 +70,7 @@
                 border-bottom-right-radius: 4px;
             }
         }
-
+        
         .dn-timepicker-popup {
             max-height: 300px;
             overflow-y: scroll;
@@ -106,7 +106,7 @@
             </form>
         </div>
         <div class="highlight" ng-non-bindable>
-            <pre class="brush: xml">&lt;input type="text" dn-timepicker ng-model="models.time" on-select="controllerFunction"/&gt;</pre>
+            <pre class="brush: xml">&lt;input type="text" dn-timepicker ng-model="models.time" /&gt;</pre>
         </div>
 
         <h3>Range</h3>
@@ -129,7 +129,7 @@
             </form>
         </div>
         <div class="highlight" ng-non-bindable>
-            <pre class="brush: xml">&lt;input type="text" dn-timepicker="h:mm a" ng-model="models.time" min-time="9:00 am" max-time="5:00 pm" on-select="controllerFunction"/&gt;</pre>
+            <pre class="brush: xml">&lt;input type="text" dn-timepicker="h:mm a" ng-model="models.time" min-time="9:00 am" max-time="5:00 pm" /&gt;</pre>
         </div>
 
         <h3>Dynamic Range & Format</h3>
@@ -187,7 +187,7 @@ $scope.models = {
     maxTime: '9:00 pm',
     step: '15'
 };</pre>
-            <pre class="brush: xml">&lt;input type="text" dn-timepicker="{{models.format}}" ng-model="models.time" min-time="{{models.minTime}}" max-time="{{models.maxTime}}" step="{{models.step}}" on-select="controllerFunction"/&gt;</pre>
+            <pre class="brush: xml">&lt;input type="text" dn-timepicker="{{models.format}}" ng-model="models.time" min-time="{{models.minTime}}" max-time="{{models.maxTime}}" step="{{models.step}}" /&gt;</pre>
         </div>
     </div>
 
@@ -197,7 +197,7 @@ $scope.models = {
     <script src="src/angular-timepicker.js"></script>
     <script>
         angular.module('demoApp', ['dnTimepicker'])
-            .controller('demoCtrl', function($scope){
+            .controller('demoCtrl', function($scope){                
                 $scope.models = {
                     time1: new Date(),
                     time2: new Date(),
