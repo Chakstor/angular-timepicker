@@ -23,7 +23,7 @@ module.exports = function (grunt) {
           mangle: false,
           compress: false,
           preserveComments: 'some',
-          banner: ['/*!', ' * <%= pkg.name %> <%= pkg.version %>', ' * <%= pkg.homepage %>', ' * Copyright <%= grunt.template.today("yyyy") %>, <%= pkg.author.name %>', ' * Contributors: <%= pkg.contributors %>', ' * Licensed under: <%= pkg.licenses.type %> (<%= pkg.licenses.url %>)\n */\n\n'].join('\n')
+          banner: ['/*!', ' * <%= pkg.name %> <%= pkg.version %>', ' * <%= pkg.homepage %>', ' * Copyright <%= grunt.template.today("yyyy") %>, <%= pkg.author.name %>', ' * Contributors: <%= pkg.contributors %>', ' * Licensed under: <%= pkg.license %>\n */\n\n'].join('\n')
         },
         files: {
           'dist/angular-timepicker.js': ['src/angular-timepicker.js']
@@ -39,7 +39,7 @@ module.exports = function (grunt) {
           preserveComments: false,
           banner: '/*! <%= pkg.name %> <%= pkg.version %> | ' +
             '(c) <%= grunt.template.today("yyyy") %>, <%= pkg.author.name %> | ' +
-            '<%= pkg.licenses.type %> (<%= pkg.licenses.url %>) */'
+            '<%= pkg.license %> */'
         },
         files: {
           'dist/angular-timepicker.min.js': ['dist/angular-timepicker.js']

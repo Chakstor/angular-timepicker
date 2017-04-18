@@ -191,13 +191,13 @@ $scope.models = {
         </div>
     </div>
 
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-ui-bootstrap/src/position/position.js"></script>
-    <script src="bower_components/angular-dateparser/dist/angular-dateparser.js"></script>
-    <script src="src/angular-timepicker.js"></script>
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/angular-ui-bootstrap/src/position/position.js"></script>
+    <script src="node_modules/angular-dateparser/dist/angular-dateparser.js"></script>
+    <script src="dist/angular-timepicker.js"></script>
     <script>
         angular.module('demoApp', ['dnTimepicker'])
-            .controller('demoCtrl', function($scope){                
+            .controller('demoCtrl', function($scope){
                 $scope.models = {
                     time1: new Date(),
                     time2: new Date(),
