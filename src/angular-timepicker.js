@@ -215,11 +215,12 @@
 
                         // Closes the timepicker
                         scope.closePopup = function () {
-                            if (scope.timepicker.isOpen) {
-                                scope.timepicker.isOpen = false;
-                                scope.$apply();
-                                element[0].blur();
-                            }
+                            scope.$evalAsync(function() {
+                                if (scope.timepicker.isOpen) {
+                                    scope.timepicker.isOpen = false;
+                                    element[0].blur();
+                                }
+                            });
                         };
 
                         // Append timepicker dropdown
@@ -230,8 +231,10 @@
                             .bind('focus', function () {
                                 scope.openPopup();
                             })
-                            .bind("blur", function() {
-                                scope.closePopup();
+                            .bind('blur', function() {
+                                if(scope.timepicker.isOpen) {
+                                    scope.closePopup();
+                                }
                             })
                             .bind('keypress keyup', function (e) {
                                 if (e.which === 38 && scope.timepicker.activeIdx > 0) { // UP
@@ -264,7 +267,7 @@
                 restrict: 'A',
                 replace: true,
                 transclude: false,
-                template: '<ul class="dn-timepicker-popup dropdown-menu" ng-style="{display: timepicker.isOpen && \'block\' || \'none\', top: position.top+\'px\', left: position.left+\'px\'}"><li ng-repeat="time in timepicker.optionList()" ng-class="{active: isActive($index) }" ng-mouseenter="setActive($index)"><a ng-click="select(time)">{{time | date:timepicker.timeFormat}}</a></li></ul>',
+                template: '<ul class="dn-timepicker-popup dropdown-menu" ng-style="{display: timepicker.isOpen && \'block\' || \'none\', top: position.top+\'px\', left: position.left+\'px\'}"><li ng-repeat="time in timepicker.optionList()" ng-class="{active: isActive($index) }" ng-mouseenter="setActive($index)"><a ng-mousedown="select(time)">{{time | date:timepicker.timeFormat}}</a></li></ul>',
                 link: function (scope, element, attrs) {
                     scope.timepicker.element = element;
 

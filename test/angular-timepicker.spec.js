@@ -143,7 +143,7 @@ describe('Timepicker directive', function() {
 				$scope.models.time = new Date(2012, 11, 15, 13, 30, 0);
 			});
 			
-			inputEl.next().find('li:first-child a').click();
+			inputEl.next().find('li:first-child a').trigger('mousedown');
 
 			expect($scope.models.time.getFullYear()).toEqual(2012);
 			expect($scope.models.time.getMonth()).toEqual(11);
